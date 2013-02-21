@@ -1,0 +1,52 @@
+
+parameter 60	0		;// max. number of projectyles written to ntuple/.root-file by the presorter
+parameter 61	3		;// max. number of recoils written to ntuple/.root-file by the presorter
+parameter 62	3		;// max. number of electrons written to ntuple/.root-file by the presorter
+
+
+parameter 122	120.	;//recoil MCP-radius [mm] (choose always bigger than real radius)
+parameter 222	80.		;//electron MCP-radius [mm] (choose always bigger than real radius)
+parameter 322	80.		;//projectile MCP-radius [mm] (choose always bigger than real radius)
+
+
+parameter 1000 	1		;//number of threads (0 is auto) 
+
+parameter 1010	328.		;//bunchspacing
+
+set_TOF BM -1 328.226	5	;
+//set_spectrometer	ION_ARM		num_regions		region_1_lenght_mm		region_1_E_field	region_2_lenght		region_2_E_field	region_3_lenght		region_3_E_field
+//set_spectrometer	ELEC_ARM	num_regions		region_1_lenght_mm		region_1_E_field	region_2_lenght		region_2_E_field	region_3_lenght		region_3_E_field
+set_spectrometer	ELEC_ARM	2				74.0				7.4					140.0				0.0;
+set_spectrometer	ION_ARM		2				33.0				7.4					10					200.0;
+
+//set_spectrometer	B_Gauss		B_value		Clockwise(1)/Counter(0)
+//set_spectrometer	B_ns		51.0		0;
+set_spectrometer	B_Gauss		6		1;
+
+//some presorters NEED the spectrometer arms defined
+//new_presorter ELECTRONTOF 18 10.0 15.0;
+//new_presorter PIPICO 1 150.0 150.0 1.0 1.0 15.0 1.0 30000000000.0
+//new_presorter PIPICO 1 150.0 150.0 1.0 1.0 15.0 1.0 7.4 33.0 300.0
+//new_presorter ANY 1
+new_presorter ETOF 1 150. 150.
+new_presorter RTOF 2 1500. 1500.
+new_presorter ERTOF 3 150. 150. 1500. 1500.
+
+
+
+//readROOTfile "C:\Users\Williams\Documents\GitHub\CH4_295_5eV_analysis_presorted_Two_H_Plus.root"
+readROOTfile "C:\Users\Williams\Documents\Test_data\synchrotron\synchrotron.root"
+
+/*
+readROOTfile "C:\CH4\CH4_ALS_Aug2010\CH4_Aug-2010\Analysis\CH4_293eV\CH4_293eV_analysis_preot";
+readROOTfile "C:\CH4\CH4_ALS_Aug2010\CH4_Aug-2010\Analysis\CH4_293eV\CH4_293eV_analysis_presortedt";
+readROOTfile "C:\CH4\CH4_ALS_Aug2010\CH4_Aug-2010\Analysis\CH4_293eV\CH4_293eV_analysis_presot";
+readROOTfile "C:\CH4\CH4_ALS_Aug2010\CH4_Aug-2010\Analysis\CH4_293eV\CH4_293eV_analysis_presort";
+readROOTfile "C:\CH4\CH4_ALS_Aug2010\CH4_Aug-2010\Analysis\CH4_293eV\CH4_293eV_analysis_presorted_M";
+readROOTfile "C:\CH4\CH4_ALS_Aug2010\CH4_Aug-2010\Analysis\CH4_293eV\CH4_293eV_analysis_presorted_";
+readROOTfile "C:\CH4\CH4_ALS_Aug2010\CH4_Aug-2010\Analysis\CH4_293eV\CH4_293eV_analysis_presorted_MFP";
+*/
+
+
+
+set_root_output_file_name "C:\Users\Williams\Documents\Test_data\synchrotron\synchrotron_crap";
