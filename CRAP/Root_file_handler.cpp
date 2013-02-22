@@ -161,12 +161,13 @@ TTree * Root_file_handler::OpenRootFileGetTree(const char *TreeName)
 {
 	//should only be called my the consturcter
 	RootFile = new TFile(rootfilename.c_str(),"READ");
-
+	//RootFile->SetBufferSize(32000*1000);
 	if (RootFile->IsZombie()) {
 		return 0;
 	}
 	
     TTree * tree = (TTree*)RootFile->Get(TreeName);
+
 	return tree;
 }
 
@@ -296,6 +297,7 @@ void Root_file_handler::NTupleD( const char *name, const char * title, const cha
 	}
 
 	//--now fill it--//
+
 	if (MyTNtuple) MyTNtuple->Fill(data);
 	++eventswritten;
 }
@@ -347,18 +349,18 @@ void Root_file_handler::add_hist(H1d * hist){
 	TH1D * root_hist =new TH1D(hist->get_name(), hist->get_title(), hist->get_X_n_bins(), hist->get_X_min(), hist->get_X_max() );
 
 	// copy contents
+	int Entries=0;
 	root_hist->SetBinContent( 0 , hist->get_X_underflow() );
 	for(int i=0; i < hist->get_X_n_bins(); ++i){
 		root_hist->SetBinContent( i+1, hist->bins[i]);
+		Entries+=hist->bins[i];
 	}
 	root_hist->SetBinContent( hist->get_X_n_bins()+1 , hist->get_X_overflow() );
 	//set axis title
-	//root_hist->SetXTitle( hist->get_X_title().c_str() );
 	root_hist->SetXTitle( hist->get_X_title() );
-	
+	root_hist->SetEntries(Entries);
 
 	//write to root file
-	//root_hist->Write(hist->get_name().c_str() );
 	root_hist->Write(hist->get_name() );
 }
 

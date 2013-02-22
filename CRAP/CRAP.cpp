@@ -34,6 +34,22 @@
 #include <sys/stat.h> //needed for FileExists
 #include <sstream> //for string_to_double
 
+#define black		0
+#define blue1		1
+#define green1		2	
+#define cyan1		3
+#define red1		4
+#define magenta1	5
+#define yellow1		6
+#define white1		7
+#define gray1		8
+#define blue2		9
+#define green2		10
+#define cyan2		11
+#define red2		12
+#define magenta2	13
+#define yellow2		14
+#define white2		15
 
 
 using namespace std;
@@ -153,7 +169,7 @@ bool FileExists(const char * strFilename) {
 		temptime1=temptime2;
 
 
-		std::chrono::milliseconds sleepDuration(750);
+		std::chrono::milliseconds sleepDuration(250);
 		std::this_thread::sleep_for(sleepDuration);
 
 
@@ -217,42 +233,70 @@ bool FileExists(const char * strFilename) {
 
 int main(__int32 argc, char* argv[], char* envp[])
 {
+	SYSTEMTIME start_time;
+	GetSystemTime(&start_time);
+	ULARGE_INTEGER U_start_time;
+	FILETIME F_start_time;
+	SystemTimeToFileTime(&start_time, &F_start_time);
+	U_start_time.LowPart = F_start_time.dwLowDateTime;
+	U_start_time.HighPart = F_start_time.dwHighDateTime;
+
 #ifdef _DEBUG
 	Red(true);
 	printf("\n***********************\n    SLOW DEBUG VERSION !\n***********************\n");
 	Red(false);
 #endif
-
-	
-	//Green(true);
-	//Back_Blue(true);
-	settextcolor(0);
-	settextbackground(15);
 	string tabs = "\t\t";
-		cout <<tabs <<"   ******  *******       **     ******* " << tabs<<endl;
-		cout <<tabs <<"  **////**/**////**     ****   /**////**" << tabs<<endl;
-		cout <<tabs <<" **    // /**   /**    **//**  /**   /**" << tabs<<endl;
-		cout <<tabs <<"/**       /*******    **  //** /******* " << tabs<<endl;
-		cout <<tabs <<"/**       /**///**   **********/**////  " << tabs<<endl;
-		cout <<tabs <<"//**    **/**  //** /**//////**/**      " << tabs<<endl;
-		cout <<tabs <<" //****** /**   //**/**     /**/**      " << tabs<<endl;
-		cout <<tabs <<"  //////  //     // //      // //" <<"\t" <<tabs<<endl;
-		cout <<tabs <<"                                        " << tabs<<endl;
-		cout <<tabs <<"    (Coltrims Root Analysis Program)    " << tabs<<endl;
-	//cout << endl;
-
 	White(true);
-
-	
-	printf("Verison 0.85\n");
+	cout <<endl;
+	settextcolor(red2);
+	settextbackground(blue1);
+	cout <<tabs <<"     __________  ___    ____	    " << tabs;
+	settextbackground(black);
+	cout << endl;
+	settextbackground(blue1);
+	cout <<tabs <<"    / ____/ __ \\/   |  / __ \\   " << tabs;
+	settextbackground(black);
+	cout << endl;
+	settextbackground(blue1);
+	cout <<tabs <<"   / /   / /_/ / /| | / /_/ /	" << tabs;
+	settextbackground(black);
+	cout << endl;
+	settextbackground(blue1);
+	cout <<tabs <<"  / /___/ _, _/ ___ |/ ____/	    " << tabs;
+	settextbackground(black);
+	cout << endl;
+	settextbackground(blue1);
+	cout <<tabs <<"  \\____/_/ |_/_/  |_/_/		    " << tabs;
+	settextbackground(black);
+	cout << endl;
+	settextbackground(blue1);
+	cout <<tabs <<"                                 " << tabs;
+	settextbackground(black);
+	cout << endl;
+	settextbackground(blue1);
+	settextcolor(white2);
+	cout <<tabs <<"(Coltrims Root Analysis Program)" << tabs;
+	settextbackground(black);
+	cout << endl;
+	settextbackground(blue1);
+	cout <<tabs <<"          Verison 0.95          " << tabs;
+	settextbackground(black);
+	cout << endl;
+	White(true);
+	//printf("Verison 0.85\n");
+//	printf("        By Joshua Williams");
 	printf("By Joshua Williams");
 	printf(", Achim Czasch");
 	printf(", Till Jahnke");
 	printf(", Markus Schoeffler\n");
+	settextcolor(yellow2);
+	cout <<tabs <<"       Featuring ColAHelL          " << tabs << endl;
 	//printf(", and ROOT\n");
 	White(false);
 	Red(true);
-	printf("Don't panic! Everything will be fine.\n");
+	cout << endl <<"\t      " <<"Don't panic! Everything will be fine."<<"\t"<<endl;
+	//printf("Don't panic! Everything will be fine.\n");
 	White(false);
 
 
@@ -277,13 +321,13 @@ int main(__int32 argc, char* argv[], char* envp[])
 				config_file = new config_file_reader(argv[1]);
 		}
 	}else {
-		cout << "Please give a config file." << endl;
+		cout << "\nPlease give a config file.\nExample: \"CRAP config.txt\"" << endl;
 		return 0;
 	}
 	
 	//testing: Display the config file commands
 	cout << "Commands found in config file"<<endl;
-	cout << "------------------------------------------------------------"<<endl;
+	cout << "--------------------------------------------------------------------------------"<<endl;
 	for(int i=0; i<(int)config_file->config_commands.size();++i){
 		if(config_file->config_commands[i].presorter)
 			cout << "new_presorter: ";
@@ -300,120 +344,7 @@ int main(__int32 argc, char* argv[], char* envp[])
 	}
 	cout << endl;
 
-	///////////////////////////// create spec, ctof /////////////////////////////////////////
 	
-	
-
-	//spectrometer_class * spect = new spectrometer_class();
-	//tof_calc_class * ctof;
-
-	////create spectrometer sturcts
-	//for(int i=0;i<(int)config_file->config_commands.size();++i){
-	//	if(config_file->config_commands[i].spectrometer){
-
-	//		if(config_file->config_commands[i].command_str =="ELEC_ARM"){
-	//			if( 2*config_file->config_commands[i].arg[0] == (int)config_file->config_commands[i].arg.size()-1){
-	//				std::vector<double> lenghts;
-	//				std::vector<double> E_val;
-	//				for(int j=1; j <= 2*config_file->config_commands[i].arg[0]; j=j+2){
-	//					lenghts.push_back(config_file->config_commands[i].arg[j]);
-	//					E_val.push_back(config_file->config_commands[i].arg[j+1]);
-	//				}
-	//				spect->set_electron_arm(config_file->config_commands[i].arg[0] , lenghts.data(), E_val.data());
-	//			}else{
-	//				cout<< "Error wrong number of arguments: ELEC_ARM."<<endl;
-	//			}
-	//		}
-	//		
-	//		if(config_file->config_commands[i].command_str =="ION_ARM"){
-	//			if( 2*config_file->config_commands[i].arg[0] == (int)config_file->config_commands[i].arg.size()-1){
-	//				std::vector<double> lenghts;
-	//				std::vector<double> E_val;
-	//				for(int j=1; j <= 2*config_file->config_commands[i].arg[0]; j=j+2){
-	//					lenghts.push_back(config_file->config_commands[i].arg[j]);
-	//					E_val.push_back(config_file->config_commands[i].arg[j+1]);
-	//				}
-	//				spect->set_ion_arm(config_file->config_commands[i].arg[0] , lenghts.data(), E_val.data());
-	//			}else{
-	//				cout<< "Error wrong number of arguments: ION_ARM."<<endl;
-	//			}
-	//		}
-
-	//		if(config_file->config_commands[i].command_str =="ION_ARM_LINEAR"){
-	//			if((int)config_file->config_commands[i].arg.size()==1  ){
-	//				spect->set_ion_arm_lin(config_file->config_commands[i].arg[0]);
-	//			}else{
-	//				cout<< "Error wrong number of arguments: ION_ARM_LINEAR."<<endl;
-	//			}
-	//		}
-
-	//		if(config_file->config_commands[i].command_str =="B_ns"){
-	//			if((int)config_file->config_commands[i].arg.size()==2 ){
-	//				spect->set_Bfield(config_file->config_commands[i].arg[0], config_file->config_commands[i].arg[0], true);
-	//			}else{
-	//				cout<< "Error wrong number of arguments: B_ns."<<endl;
-	//			}
-	//		}
-	//		
-	//		if(config_file->config_commands[i].command_str =="B_Gauss"){
-	//			if((int)config_file->config_commands[i].arg.size()==2 ){
-	//				spect->set_Bfield(config_file->config_commands[i].arg[0], config_file->config_commands[i].arg[0], false);
-	//			}else{
-	//				cout<< "Error wrong number of arguments: B_Gauss."<<endl;
-	//			}
-	//		}
-	//	}
-	//}
-	////create ctof
-	//for(int i=0;i<(int)config_file->config_commands.size();++i){
-	//	if(config_file->config_commands[i].tof){
-
-	//		//printf("create ctof:\n");
-	//		//for(int j =0; j<(int)config_file->config_commands[i].arg.size(); ++j)
-	//		//	printf("config_file->config_commands[i].arg[%d]=%f\n",j , config_file->config_commands[i].arg[j]);
-
-	//		if(config_file->config_commands[i].command_str =="BM"){
-	//			if((int)config_file->config_commands[i].arg.size()==1 ){
-	//				ctof = new tof_calc_class(0, config_file->config_commands[i].arg[0]);
-	//			}
-	//			else if((int)config_file->config_commands[i].arg.size()==2 ){
-	//				ctof = new tof_calc_class(0, config_file->config_commands[i].arg[0], config_file->config_commands[i].arg[1]);
-	//			}
-	//			else if((int)config_file->config_commands[i].arg.size()==3 ){
-	//				ctof = new tof_calc_class(0, config_file->config_commands[i].arg[0], config_file->config_commands[i].arg[1]);
-	//				ctof->set_mod_shift_e(config_file->config_commands[i].arg[2]);
-	//			}
-	//			else{
-	//				cout<< "Error wrong number of arguments: get_tof_from"<<endl;
-	//			}
-	//			//printf("ctof: BMspacing=%f, BM=%d \n", ctof->GetBMspacing(), ctof->usesBM() );
-	//		}
-	//		if(config_file->config_commands[i].command_str =="PROJ"){
-	//			if((int)config_file->config_commands[i].arg.size()==1 ){
-	//				ctof = new tof_calc_class(1);
-	//			}
-	//			else if((int)config_file->config_commands[i].arg.size()==2 ){
-	//				ctof = new tof_calc_class(1, config_file->config_commands[i].arg[0]);
-	//			}
-	//			else{
-	//				cout<< "Error wrong number of arguments: get_tof_from"<<endl;
-	//			}
-	//		}
-	//		if(config_file->config_commands[i].command_str =="ELEC"){
-	//			if((int)config_file->config_commands[i].arg.size()==1 ){
-	//				ctof = new tof_calc_class(2);
-	//			}
-	//			else{
-	//				cout<< "Error wrong number of arguments: get_tof_from"<<endl;
-	//			}
-	//		}
-	//	}
-	//}
-	//
-
-	//tuple<spectrometer_class, tof_calc_class> Colahell_objects;
-	//Colahell_objects[0]=*spect;
-	//Colahell_objects[0]=*ctof;
 
 	
 	///////////////////////////// end read config file /////////////////////////////////////////
@@ -423,7 +354,7 @@ int main(__int32 argc, char* argv[], char* envp[])
 
 	std::vector<std::thread> threads;
 
-	cout << "------------------------------------------------------------"<<endl;
+	cout << "--------------------------------------------------------------------------------"<<endl;
 	//start output file handlers
 	string outputfilename = config_file->outputfilename;
 	Root_file_handler * output_root_file = new Root_file_handler(outputfilename, "write");
@@ -434,7 +365,7 @@ int main(__int32 argc, char* argv[], char* envp[])
 
 
 
-	cout << "------------------------------------------------------------"<<endl;
+	cout << "--------------------------------------------------------------------------------"<<endl;
 	//set the number of theads
 	int number_of_threads=(int) config_file->parameter[1000];
 	int numCPU;
@@ -527,24 +458,46 @@ int main(__int32 argc, char* argv[], char* envp[])
 				thread.~thread();
 			}
 			so_called_gui.~thread();
+
 			//remove the analysis threads from the threads vector
 			threads.erase(threads.begin(), threads.end());
 
-			//input_root_file_vector[j]->tree_reset();	
-			input_root_file_vector[j]->close_file();
-			//input_root_file_vector[j]->~Root_file_handler();
-
 			cout<< endl ;
+			cout << "--------------------------------------------------------------------------------"<<endl;
+			input_root_file_vector[j]->close_file();
+
+
+
 		}
 	}
 
-	cout<<endl;
+
 	//combine the historams form each thread
 	// iterate over the Histogram_Handler_vector
 	// store the results in Histogram_Handler_vector[0]
 	if (number_of_threads > 1){
-	printf("Combining histgrams from each thread ...\n");
-		
+		printf("Combining histgrams from each thread ...\n");
+	
+		//threads.push_back(std::thread([&number_of_threads, &Histogram_Handler_vector](){
+		//	for(int i=0; i<number_of_threads;++i){
+		//		//the 1d histograms
+		//		for ( int j=0;j < (int)(Histogram_Handler_vector[i]->H1d_vector.size()); j++ ) {
+		//				Histogram_Handler_vector[0]->combine_hist( Histogram_Handler_vector[i]->H1d_vector[j], j);
+		//			}
+		//	}
+		//}));
+		//threads.push_back(std::thread([&number_of_threads, &Histogram_Handler_vector](){
+		//	for(int i=0; i<number_of_threads;++i){
+		//		//the 2d histograms
+		//		for ( int j=0;j < (int)(Histogram_Handler_vector[i]->H2d_vector.size()); j++ ) {
+		//				Histogram_Handler_vector[0]->combine_hist(Histogram_Handler_vector[i]->H2d_vector[j], j);
+		//			}
+		//	}
+		//}));
+		//for(auto& thread : threads){
+		//	thread.join();
+		//}
+
 		for(int i=0; i<number_of_threads;++i){
 			//the 1d histograms
 			for ( int j=0;j < (int)(Histogram_Handler_vector[i]->H1d_vector.size()); j++ ) {
@@ -560,7 +513,7 @@ int main(__int32 argc, char* argv[], char* envp[])
 	}
 
 
-	
+	printf("Writing histgrams to the root file ...\n");
 	//write 1D histograms to the root file
 	for ( int j=0;j < (int)(Histogram_Handler_vector[0]->H1d_vector.size()); j++ ) {
 		if(Histogram_Handler_vector[0]->H1d_vector[j] != 0)
@@ -579,6 +532,17 @@ int main(__int32 argc, char* argv[], char* envp[])
 	output_root_file->write_TNtupleD();
 	output_root_file->close_file();
 
+	SYSTEMTIME stop_time;
+	GetSystemTime(&stop_time);
+	ULARGE_INTEGER U_stop_time;
+	FILETIME F_stop_time;
+	SystemTimeToFileTime(&stop_time, &F_stop_time);
+	U_stop_time.LowPart = F_stop_time.dwLowDateTime;
+	U_stop_time.HighPart = F_stop_time.dwHighDateTime;
+	double dif = (U_stop_time.QuadPart - U_start_time.QuadPart) / 10000000.0;
+	
+	printf("\nCRAP execution time: %1.2f mins\n",dif/60.);
+	
 	return 0;
 }
 
