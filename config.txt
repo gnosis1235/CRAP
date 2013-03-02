@@ -14,17 +14,19 @@ parameter 1000 	0		;//number of threads (0 is auto)
 // A large buffer size can cause the program to crash.
 // Keep the buffer size as large as possible, because the can double or triple the your speed when writing data (NTupleD).
 // The safe range should be 32000 to 3e7
-parameter 1001	3e7		;//Buffer size for the output file. 
+parameter 1001	3.5e7		;//Buffer size for the output file. 
 
 ////////////////// define how to obtain time-of-flight of particles  /////////////////////
 // get_tof_from BM bm-channel bunchspacing(optional) mod_shift(optional - only applies if bunchspacing is set)
 // get_tof_from PROJ tof_shift(optional)
 // get_tof_from ELEC
-set_TOF BM -1 328.226	5	;
+set_TOF BM -1 328.226	
+
+
 
 ////////////////// define how to obtain Spectrometer object /////////////////////
-//set_spectrometer	ION_ARM		num_regions		region_1_lenght_mm		region_1_E_field	region_2_lenght		region_2_E_field	region_3_lenght		region_3_E_field
-//set_spectrometer	ELEC_ARM	num_regions		region_1_lenght_mm		region_1_E_field	region_2_lenght		region_2_E_field	region_3_lenght		region_3_E_field
+//set_spectrometer	ION_ARM		num_regions		region_1_length_mm		region_1_E_field	region_2_length		region_2_E_field	region_3_length		region_3_E_field
+//set_spectrometer	ELEC_ARM	num_regions		region_1_length_mm		region_1_E_field	region_2_length		region_2_E_field	region_3_length		region_3_E_field
 set_spectrometer	ELEC_ARM	2				74.0				7.4					140.0				0.0;
 set_spectrometer	ION_ARM		2				33.0				7.4					10					200.0;
 
@@ -44,8 +46,8 @@ new_presorter PIPICO 4 150.0 150.0 1.0 1.0 15.0 1.0 300.0
 //new_presorter PIPICO 1 150.0 150.0 1.0 1.0 15.0 1.0 7.4 33.0 300.0
 
 
-readROOTfile "C:\Users\Williams\Documents\GitHub\CH4_295_5eV_analysis_presorted_Two_H_Plus.root"
-//readROOTfile "C:\Users\Williams\Documents\Test_data\synchrotron\synchrotron.root"
+//readROOTfile "C:\Users\Williams\Documents\GitHub\CH4_295_5eV_analysis_presorted_Two_H_Plus.root"
+readROOTfile "C:\Users\Williams\Documents\Test_data\synchrotron\synchrotron.root"
 
 /*
 readROOTfile "C:\CH4\CH4_ALS_Aug2010\CH4_Aug-2010\Analysis\CH4_293eV\CH4_293eV_analysis_preot";

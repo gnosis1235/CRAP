@@ -172,8 +172,8 @@ void analysis(Root_file_handler * input_root_file, Root_file_handler * output_ro
 	//------------------------------------------------------------------------------------------------
 	//create spectrometer sturcts
 	for(int i=0;i<(int)config_commands.size();++i){
-		if(config_commands[i].spectrometer){
-
+		//if(config_commands[i].spectrometer){
+		if(config_commands[i].command_str_main=="set_spectrometer"){
 			if(config_commands[i].command_str =="ELEC_ARM"){
 				if( 2*config_commands[i].arg[0] == (int)config_commands[i].arg.size()-1){
 					std::vector<double> lenghts;
@@ -230,8 +230,8 @@ void analysis(Root_file_handler * input_root_file, Root_file_handler * output_ro
 	//------------------------------------------------------------------------------------------------
 	//create ctof
 	for(int i=0;i<(int)config_commands.size();++i){
-		if(config_commands[i].tof){
-
+		//if(config_commands[i].tof){
+		if(config_commands[i].command_str_main=="set_TOF"){
 			//printf("create ctof:\n");
 			//for(int j =0; j<(int)config_commands[i].arg.size(); ++j)
 			//	printf("config_commands[i].arg[%d]=%f\n",j , config_commands[i].arg[j]);
@@ -278,7 +278,8 @@ void analysis(Root_file_handler * input_root_file, Root_file_handler * output_ro
 	int current_pre = 0;
 	std::vector<presorter_class*> presorter_list;
 	for(int i=0;i<(int)config_commands.size();++i){ 
-		if(config_commands[i].presorter){
+		//if(config_commands[i].presorter){
+		if(config_commands[i].command_str_main=="new_presorter"){
 
 			if(config_commands[i].command_str=="ANY"){
 				presorter_list.push_back( new presorter_class(ANY, (int)config_commands[i].arg[0], event, Hist, spect, ctof) );
@@ -541,7 +542,7 @@ void analysis(Root_file_handler * input_root_file, Root_file_handler * output_ro
 //---------------------------------------------------------------------------------------------------------------------------
 //	                            A N A L Y S I S
 //---------------------------------------------------------------------------------------------------------------------------
-//your code goes here
+// Include your analysis here.
 			
 
 		//Hist->fill2(1,"pipico1 spectrum ",event->r.tof[0],event->r.tof[1],1.,"PIPICO spectrum " ,750,0.,6000.,"rec1 TOF [ns]",750,0.,6000.,"rec2 TOF [ns]",sub_name);

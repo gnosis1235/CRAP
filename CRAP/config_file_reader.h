@@ -19,10 +19,13 @@ using namespace std;
 
 struct command
 {
-	bool presorter;
-	bool spectrometer;
-	bool tof;
-	string command_str;	
+	//bool presorter;
+	//bool spectrometer;
+	//bool tof;
+
+	string command_str_main;
+	string command_str;
+
 	vector<double> arg;
 };
 

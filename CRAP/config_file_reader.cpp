@@ -48,7 +48,7 @@ config_file_reader::config_file_reader(string filename){
 	double par_value = -1000;
 
 
-	settextbackground(15);
+	settextbackground(0);
 	
 	if (config.is_open())
 	{
@@ -98,11 +98,11 @@ config_file_reader::config_file_reader(string filename){
 					line_stream >> par_num >> par_value;
 					parameter[par_num]=par_value;
 					//printf("parameter %i	%G \n" , par_num, parameter[par_num]);
-
+					line.erase(line.begin(),line.end());
 				}
 
 
-
+/*
 		/////////////////////////////////// insert presorter commands here /////////////////////////////////////////////////
 				string new_presorter="new_presorter";
 				size_t found_new_presorter;
@@ -274,24 +274,13 @@ config_file_reader::config_file_reader(string filename){
 						config_commands.push_back(temp_command);			// store the eTOF command object in the a vector. 
 					}
 				}
+*/
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////				
-				else{
+				//else{
 					//look for readROOTfile
 					found_rroot = line.find(read_root);
 					if (found_rroot!=string::npos){
 						line = line.erase(found_rroot, read_root.size());
-
-						////replace \ with \\ for file path
-						//found_bslash = line.find(back_slash);
-						//while (found_bslash!=string::npos){
-						//	line.replace(found_bslash, 1, "#");  // marking the spot with a pound sign (i know it's a crappy way to do it)
-						//	found_bslash = line.find(back_slash);
-						//}
-						//found_pound = line.find("#");
-						//while (found_pound!=string::npos){
-						//	line.replace(found_pound, 1,back_slash + back_slash);  
-						//	found_pound = line.find("#");
-						//}
 
 						// find and remove anything before and after the double quotes
 						found_dqoutes = line.find(double_quotes);
@@ -301,25 +290,14 @@ config_file_reader::config_file_reader(string filename){
 						}
 						//cout << line << endl;
 						inputfilename.push_back(line);
+						line.erase(line.begin(),line.end());
 					}
 
 					//look for set_root_output_file_name
 					found_wroot = line.find(write_root);
 					if (found_wroot!=string::npos){
 						line = line.erase(found_wroot,write_root.size());
-
-						////replace \ with \\ for file path
-						//found_bslash = line.find(back_slash);
-						//while (found_bslash!=string::npos){
-						//	line.replace(found_bslash, 1, "#");  // marking the spot with a pound sign
-						//	found_bslash = line.find(back_slash);
-						//}
-						//found_pound = line.find("#");
-						//while (found_pound!=string::npos){
-						//	line.replace(found_pound, 1, "\\");  
-						//	found_pound = line.find("#");
-						//}
-						// find and remove "
+						// find and remove anything before and after the double quotes
 						found_dqoutes = line.find(double_quotes);
 						if (found_dqoutes!=string::npos){
 							line.erase(found_dqoutes, 1);
@@ -332,11 +310,66 @@ config_file_reader::config_file_reader(string filename){
 						if (found_dotroot==string::npos){
 							outputfilename.append(dot_root);
 						}
-					
+
+						line.erase(line.begin(),line.end());
 						//cout << write_root << outputfilename << endl;
 					}
 
-				}
+				//}
+					if ((int)line.length() > 0){
+						//cout <<"(int)line.length()="<<(int)line.length()<<endl;
+						double temp_arg = -123456789.;
+
+						command temp_command;		// create temp commad object 
+						//temp_command.command_str=spec_type;					// store which command string was found
+						//line = line.erase(found_spec, spec_type.size());	// erase the "electron"
+						
+						stringstream line_stream(line);
+						line_stream >> temp_command.command_str_main;
+						//test to see if it is a number
+						stringstream temp_stream(temp_command.command_str_main);
+						temp_stream >> temp_arg;
+						if (!temp_stream.fail()){
+							Red(true);
+							cout << "Error in config file:";
+							White(true);
+							cout << line << endl;
+							Red(true);
+							cout << "The first thing on the line should be a string." << endl;
+							White(false);
+						}else{
+							temp_arg = -123456789.;
+						}
+
+						//cout <<temp_command.command_str_main <<endl;
+
+						line_stream >> temp_command.command_str;
+						//test to see if it is a number
+						stringstream temp_stream2(temp_command.command_str);
+						temp_stream2 >> temp_arg;
+						cout << "test out: " << temp_command.command_str << " " << temp_arg<<endl;
+						if (!temp_stream2.fail()){
+							cout << "Deleted second string in favor of storing the value in a double.\n"<< temp_command.command_str<<endl;
+							cout << "On line:"<<line<<endl;
+							temp_command.command_str = "";
+						}else{
+							temp_arg = -123456789.;
+						}
+
+
+						//	cout <<temp_command.command_str <<endl;
+
+						while(!line_stream.eof()){
+							line_stream >> temp_arg;
+							if(!line_stream.fail()){
+								temp_command.arg.push_back(temp_arg);
+							//	cout << "," << temp_arg;
+							}
+						}
+						config_commands.push_back(temp_command);
+
+
+					}
 			}
 		}//end of while(!config.eof())
 	}

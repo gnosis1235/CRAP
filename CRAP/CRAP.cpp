@@ -300,6 +300,8 @@ int main(__int32 argc, char* argv[], char* envp[])
 	White(false);
 
 
+	settextcolor(white1);
+	settextbackground(black);
 
 	config_file_reader * config_file;// = new config_file_reader("config.txt");
 
@@ -329,14 +331,14 @@ int main(__int32 argc, char* argv[], char* envp[])
 	cout << "Commands found in config file"<<endl;
 	cout << "--------------------------------------------------------------------------------"<<endl;
 	for(int i=0; i<(int)config_file->config_commands.size();++i){
-		if(config_file->config_commands[i].presorter)
-			cout << "new_presorter: ";
-		if(config_file->config_commands[i].spectrometer)
-			cout << "set_spectrometer: ";
-		if(config_file->config_commands[i].tof)
-			cout << "set_Tof: ";
-
-		cout<< config_file->config_commands[i].command_str ;
+//		if(config_file->config_commands[i].presorter)
+//			cout << "new_presorter: ";
+//		if(config_file->config_commands[i].spectrometer)
+//			cout << "set_spectrometer: ";
+//		if(config_file->config_commands[i].tof)
+//			cout << "set_Tof: ";
+		cout<< config_file->config_commands[i].command_str_main ;
+		cout<< " " << config_file->config_commands[i].command_str ;
 		for(int j=0; j<(int)config_file->config_commands[i].arg.size(); j++){
 			cout<< ", "<<config_file->config_commands[i].arg[j];
 		}
