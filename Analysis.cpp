@@ -327,7 +327,7 @@ void analysis(Root_file_handler * input_root_file, Root_file_handler * output_ro
 			
 			if(config_commands[i].command_str=="PRTOF"){
 				presorter_list.push_back( new presorter_class(PRTOF, (int)config_commands[i].arg[0], event, Hist, spect, ctof) );
-				if((int)config_commands[i].arg.size() == 7+1)
+				if((int)config_commands[i].arg.size() == 6+1)
 					presorter_list[current_pre]->init_proj_rec_tof(config_commands[i].arg[1], config_commands[i].arg[2], config_commands[i].arg[3], config_commands[i].arg[4], config_commands[i].arg[5], config_commands[i].arg[6],config_commands[i].arg[7]);
 				else
 					printf("Presorter Error: %s wrong number of arguments", config_commands[i].command_str.c_str());
@@ -363,6 +363,7 @@ void analysis(Root_file_handler * input_root_file, Root_file_handler * output_ro
 	bool writeNTuple = false;
 	char * sub_name = "Basic";
 	int num = 0;
+	/*--- event loop begins here ---*/
 	for(__int64 idx=0;idx<num_events;idx++){
 		////////////////////////////////////
 

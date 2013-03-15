@@ -102,182 +102,7 @@ config_file_reader::config_file_reader(string filename){
 				}
 
 
-/*
-		/////////////////////////////////// insert presorter commands here /////////////////////////////////////////////////
-				string new_presorter="new_presorter";
-				size_t found_new_presorter;
-				found_new_presorter = line.find(new_presorter); //try to find "new_presorter"
-				if (found_new_presorter!=string::npos){
-					++this->num_presorter;
 
-					line = line.erase(found_new_presorter, new_presorter.size()); // erase the "new_presorter"
-					command temp_command;		// create temp commad object 
-					temp_command.presorter=true;
-					temp_command.spectrometer=false;
-					temp_command.tof=false;
-					string presorter;									
-					size_t found_presorter;
-					int num_arg = 0;
-					double temp_arg = 0;
-					
-					stringstream line_stream(line);
-					line_stream >> presorter;
-					temp_command.command_str=presorter;	
-					//cout << "Persorter found: " <<presorter ;
-					while(!line_stream.eof()){
-						line_stream >> temp_arg;
-						if(!line_stream.fail()){
-							temp_command.arg.push_back(temp_arg);
-							//cout << ", "<< temp_arg ; 
-						}
-					}
-					cout<< endl;
-					config_commands.push_back(temp_command);	
-					line = " ";
-				}
-				
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				string tof="set_TOF";
-				size_t found_set_TOF;
-				found_set_TOF = line.find(tof); //try to find "set_TOF"
-
-				if (found_set_TOF!=string::npos){
-					
-					line = line.erase(found_set_TOF, tof.size()); 
-					command temp_command;		// create temp commad object 
-					temp_command.presorter=false;
-					temp_command.spectrometer=false;
-					temp_command.tof = true;
-					string command;									
-					int num_arg = 0;
-					double temp_arg = 0;
-					
-					stringstream line_stream(line);
-					line_stream >> command;
-					temp_command.command_str=command;	
-					//cout << "set_TOF found: " <<command ;
-					while(!line_stream.eof()){
-						line_stream >> temp_arg;
-						if(!line_stream.fail()){
-							temp_command.arg.push_back(temp_arg);
-							//cout << ", "<< temp_arg ; 
-						}
-					}
-					cout<< endl;
-					config_commands.push_back(temp_command);	
-					line = " ";
-					
-	
-
-				}
-		/////////////////////////////////// Spectrometer /////////////////////////////////////////////////
-				string spectrometer_arm="set_spectrometer";
-				size_t found_spectrometer_arm;
-				found_spectrometer_arm = line.find(spectrometer_arm);
-				if (found_spectrometer_arm!=string::npos){
-
-					line = line.erase(found_spectrometer_arm, spectrometer_arm.size()); // erase the command
-					command temp_command;		// create temp commad object 
-					temp_command.presorter=false;
-					temp_command.spectrometer=true;
-					temp_command.tof=false;
-					string spec_type;									
-					size_t found_spec;
-					int num_arg = 0;
-					double temp_arg = 0;
-					
-					
-					//electron
-					spec_type ="ELEC_ARM";
-					
-					found_spec = line.find(spec_type);				//try to find "electron"
-					if (found_spec!=string::npos){					//if found do something
-						temp_command.command_str=spec_type;				// store which command string was found
-						line = line.erase(found_spec, spec_type.size()); // erase the "electron"
-						
-						stringstream line_stream(line);
-						
-						line_stream >> num_arg;
-						temp_command.arg.push_back(num_arg);
-
-						for(int i=0; i < 2*num_arg; ++i){
-							line_stream >> temp_arg;				// get the number from the string
-							temp_command.arg.push_back(temp_arg);				// store the argument for "electron" in the arguments vector
-						}
-						
-						config_commands.push_back(temp_command);		// store the eTOF command object in the a vector. 
-						
-					}
-
-					//ion
-					spec_type ="ION_ARM";
-					
-					found_spec = line.find(spec_type);				//try to find "electron"
-					if (found_spec!=string::npos){					//if found do something
-						temp_command.command_str=spec_type;				// store which command string was found
-						line = line.erase(found_spec, spec_type.size()); // erase the "electron"
-						
-						stringstream line_stream(line);
-						
-						line_stream >> num_arg;
-						temp_command.arg.push_back(num_arg);
-
-						for(int i=0; i < 2*num_arg; ++i){
-							line_stream >> temp_arg;				// get the number from the string
-							temp_command.arg.push_back(temp_arg);				// store the argument for "electron" in the arguments vector
-						}
-						
-						config_commands.push_back(temp_command);		// store the eTOF command object in the a vector. 
-						
-					}
-
-					//ION_ARM_LINEAR
-					spec_type ="ION_ARM_LINEAR";
-					found_spec = line.find(spec_type);			
-					if (found_spec!=string::npos){					//if found do something
-						temp_command.command_str=spec_type;				// store which command string was found
-						line = line.erase(found_spec, spec_type.size()); // erase the "electron"
-						
-						stringstream line_stream(line);
-						line_stream >> temp_arg;				// get the number from the string
-						temp_command.arg.push_back(temp_arg);				// store the argument for "electron" in the arguments vector
-						config_commands.push_back(temp_command);		// store the eTOF command object in the a vector. 
-					}
-
-					//B_ns
-					spec_type ="B_ns";
-					found_spec = line.find(spec_type);			
-					if (found_spec!=string::npos){					//if found do something
-						temp_command.command_str=spec_type;				// store which command string was found
-						line = line.erase(found_spec, spec_type.size()); // erase the "electron"
-						
-						stringstream line_stream(line);
-						line_stream >> temp_arg;				// get the number from the string
-						temp_command.arg.push_back(temp_arg);				// store the argument for "electron" in the arguments vector
-						line_stream >> temp_arg;
-						temp_command.arg.push_back(temp_arg);
-						config_commands.push_back(temp_command);		// store the eTOF command object in the a vector. 
-					}
-
-					//B_Gauss
-					spec_type ="B_Gauss";
-					found_spec = line.find(spec_type);			
-					if (found_spec!=string::npos){							//if found do something
-						temp_command.command_str=spec_type;					// store which command string was found
-						line = line.erase(found_spec, spec_type.size());	// erase the "electron"
-						
-						stringstream line_stream(line);
-						line_stream >> temp_arg;							// get the number from the string
-						temp_command.arg.push_back(temp_arg);				// store the argument for "electron" in the arguments vector
-						line_stream >> temp_arg;
-						temp_command.arg.push_back(temp_arg);
-						config_commands.push_back(temp_command);			// store the eTOF command object in the a vector. 
-					}
-				}
-*/
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////				
-				//else{
-					//look for readROOTfile
 					found_rroot = line.find(read_root);
 					if (found_rroot!=string::npos){
 						line = line.erase(found_rroot, read_root.size());
@@ -315,7 +140,9 @@ config_file_reader::config_file_reader(string filename){
 						//cout << write_root << outputfilename << endl;
 					}
 
-				//}
+	
+
+				//find all other commands and put them in the command config_commands
 					if ((int)line.length() > 0){
 						//cout <<"(int)line.length()="<<(int)line.length()<<endl;
 						double temp_arg = -123456789.;
@@ -347,11 +174,12 @@ config_file_reader::config_file_reader(string filename){
 						//test to see if it is a number
 						stringstream temp_stream2(temp_command.command_str);
 						temp_stream2 >> temp_arg;
-						cout << "test out: " << temp_command.command_str << " " << temp_arg<<endl;
+						//cout << "test out: " << temp_command.command_str << " " << temp_arg<<endl;
 						if (!temp_stream2.fail()){
-							cout << "Deleted second string in favor of storing the value in a double.\n"<< temp_command.command_str<<endl;
-							cout << "On line:"<<line<<endl;
+							//cout << "Deleted second string in favor of storing the value in a double.\n"<< temp_command.command_str<<endl;
+							//cout << "On line:"<<line<<endl;
 							temp_command.command_str = "";
+							temp_command.arg.push_back(temp_arg);
 						}else{
 							temp_arg = -123456789.;
 						}

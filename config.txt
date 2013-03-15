@@ -14,7 +14,7 @@ parameter 1000 	0		;//number of threads (0 is auto)
 // A large buffer size can cause the program to crash.
 // Keep the buffer size as large as possible, because the can double or triple the your speed when writing data (NTupleD).
 // The safe range should be 32000 to 3e7
-parameter 1001	3.5e7		;//Buffer size for the output file. 
+parameter 1001	32000		;//Buffer size for the output file. 
 
 ////////////////// define how to obtain time-of-flight of particles  /////////////////////
 // get_tof_from BM bm-channel bunchspacing(optional) mod_shift(optional - only applies if bunchspacing is set)
@@ -38,13 +38,17 @@ set_spectrometer	B_Gauss		6		1;
 ////////////////// p r e s o r t e r s  /////////////////////
 // Use as many as needed. "Flag" appears in Ntuple to identify channel. 
 //some presorters NEED the spectrometer arms defined
-//new_presorter ANY 1
+new_presorter ANY 1
 //new_presorter ETOF 1 150. 150.
 //new_presorter RTOF 2 1500. 1500.
 //new_presorter ERTOF 3 150. 150. 1500. 1500.
-new_presorter PIPICO 4 150.0 150.0 1.0 1.0 15.0 1.0 300.0
+//new_presorter PIPICO 4 150.0 150.0 1.0 1.0 15.0 1.0 300.0
 //new_presorter PIPICO 1 150.0 150.0 1.0 1.0 15.0 1.0 7.4 33.0 300.0
+test
 
+//readROOTfile "C:\Users\Williams\Documents\Test_data\He_65414eV_ICD_dimersonly_0-90.root"
+//readROOTfile "C:\Users\Williams\Documents\Test_data\He_65414eV_ICD_dimersonly_91-133.root"
+//readROOTfile "C:\Users\Williams\Documents\Test_data\He_65414eV_ICD_dimersonly_0-133-test.root";
 
 //readROOTfile "C:\Users\Williams\Documents\GitHub\CH4_295_5eV_analysis_presorted_Two_H_Plus.root"
 readROOTfile "C:\Users\Williams\Documents\Test_data\synchrotron\synchrotron.root"
@@ -61,4 +65,5 @@ readROOTfile "C:\CH4\CH4_ALS_Aug2010\CH4_Aug-2010\Analysis\CH4_293eV\CH4_293eV_a
 
 
 
-set_root_output_file_name "C:\Users\Williams\Documents\Test_data\speed_test_crap";
+//set_root_output_file_name "C:\Users\Williams\Documents\Test_data\He_65414eV_ICD_dimersonly_0-133-test2.root";
+set_root_output_file_name "C:\Users\Williams\Documents\Test_data\synchrotron\test.root"

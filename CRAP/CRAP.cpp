@@ -324,7 +324,18 @@ int main(__int32 argc, char* argv[], char* envp[])
 		}
 	}else {
 		cout << "\nPlease give a config file.\nExample: \"CRAP config.txt\"" << endl;
-		return 0;
+		cout << "\nTrying \"config.txt\"" << endl;
+
+		ascii_file = fopen("config.txt","rt");
+		if (!ascii_file || !FileExists("config.txt")) {
+			printf("Error:Problem with config file.");
+		}
+		else if (ascii_file) {
+			fclose(ascii_file); 
+			ascii_file = 0;
+		}
+			config_file = new config_file_reader("config.txt");
+		
 	}
 	
 	//testing: Display the config file commands
