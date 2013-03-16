@@ -540,11 +540,37 @@ void analysis(Root_file_handler * input_root_file, Root_file_handler * output_ro
 			
 		}//--end presorters--//
 
-//---------------------------------------------------------------------------------------------------------------------------
-//	                            A N A L Y S I S
-//---------------------------------------------------------------------------------------------------------------------------
-// Include your analysis here.
-			
+//---------------------------------------------------------------------------------------------------------------------------------
+//		           _   _          _  __     _______ _____  _____    _____ ____  _____  ______   _    _ ______ _____  ______ 
+//		     /\   | \ | |   /\   | | \ \   / / ____|_   _|/ ____|  / ____/ __ \|  __ \|  ____| | |  | |  ____|  __ \|  ____|
+//		    /  \  |  \| |  /  \  | |  \ \_/ / (___   | | | (___   | |   | |  | | |  | | |__    | |__| | |__  | |__) | |__   
+//		   / /\ \ | . ` | / /\ \ | |   \   / \___ \  | |  \___ \  | |   | |  | | |  | |  __|   |  __  |  __| |  _  /|  __|  
+//		  / ____ \| |\  |/ ____ \| |____| |  ____) |_| |_ ____) | | |___| |__| | |__| | |____  | |  | | |____| | \ \| |____ 
+//		 /_/    \_\_| \_/_/    \_\______|_| |_____/|_____|_____/   \_____\____/|_____/|______| |_|  |_|______|_|  \_\______|
+//		                                                                                                                    
+//---------------------------------------------------------------------------------------------------------------------------------
+
+//////////////////////////////////////////////////////////////////////////////////////////////			
+//		Event data is stored in the CH_event data structure.
+//		event->reaction			gives you the reaction flag for that event
+//		event->bunchmarker		gives you the bunchmarker tdc time 
+//		
+//		To pick a detector first type
+//		event->r				gives you the recoil detector
+//		event->e				gives you the electron detector
+//		event->p				gives you the projectile detector
+//
+//		Then you can select a values for each detector.
+//		The number [0] selects the hit.  This starts with zero.
+//		event->r.tof[0]			time of flight for the first hit
+//		event->r.time[0]		MCP (tdc) time for the first hit
+//		event->e.x[0]			x postion for the first hit
+//		event->e.y[1]			x postion for the second hit
+//		event->r.num_hits		the number of hits on the recoil detector	
+//		event->r.method[0]		the method used to reconstruct the first hit 
+//
+//////////////////////////////////////////////////////////////////////////////////////////////	
+
 
 		//Hist->fill2(1,"pipico1 spectrum ",event->r.tof[0],event->r.tof[1],1.,"PIPICO spectrum " ,750,0.,6000.,"rec1 TOF [ns]",750,0.,6000.,"rec2 TOF [ns]",sub_name);
 		//Hist->fill1(2," tof hit 1 ",event->r.tof[0],1.,"r1tof ",500,0.,5000.,"rec1 TOF [ns]",sub_name);
@@ -748,7 +774,7 @@ void analysis(Root_file_handler * input_root_file, Root_file_handler * output_ro
 			
 			// The buffer size (fourth argument) can cause it to crash.
 			//Keep the buffer size as large as possible, because the can double or triple the your speed.
-			output_root_file->NTupleD("Data","BESSY2012",ntuple_identifier, buffersize, NTupleData); 
+			output_root_file->NTupleD("Data","Coltrims_Data",ntuple_identifier, buffersize, NTupleData); 
 
 		}
 		
